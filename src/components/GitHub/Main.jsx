@@ -76,11 +76,18 @@ class Main extends Component {
 
         if(this.state.checked) {
             // localhost:3000/Specific/Fredrik
+            this.props.history.push({
+                pathname: `/Specific/${this.state.data}`
+            });
         } else {
             // localhost:3000/Data/Fredrik
+            this.props.history.push({
+                pathname: `/Data/${this.state.data}`
+            });
         }
     }
 
+    
     render() {
         return (
             <section className="mainPage">
