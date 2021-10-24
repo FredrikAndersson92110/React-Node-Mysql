@@ -1,6 +1,7 @@
 export const GET_FAVORITES = "GET_FAVORITES";
 export const ADD_TO_FAVORITES = "ADD_TO_FAVORITES";
 export const DELETE_FROM_FAVORITES =  "DELETE_FROM_FAVORITES"; 
+export const RE_USER_STATE = "RE_USER_STATE";
 
 // get favorite State
 export function getFavoriteState() {
@@ -28,3 +29,11 @@ export function deleteFromFavorites(item) {
     return action;
 }
 
+// re user state 
+export function reUserState(authState) {
+    const action = {
+        type: RE_USER_STATE, 
+        payload: authState
+    }
+    return action;
+}
