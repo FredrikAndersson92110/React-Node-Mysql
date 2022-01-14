@@ -26,17 +26,22 @@ class Nav extends Component {
             <div className="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
                 <h5 className="navTitle my-0 mr-md-auto font-weight-normal"><a href="/">React With Node</a></h5>
                 <nav className="my-2 my-md-0 mr-md-3">
-                    <Link to="/Favorite" className="p-2 text-dark">
+                    <Link to="/Favorite" className="navLink p-2 text-dark">
                     <i className="fas fa-heart"></i> Favorites                    
                     </Link>       
                 </nav>
+                { this.state.isAuthenticated ?
+                    <Link to="/profile" className="navLink p-2 text-dark">
+                        <i className="fas fa-user"></i> Profile
+                    </Link> : ""
+                }
 
                 { this.state.isAuthenticated ?
-                <button onClick={this.logOut} className="btn btn-outline-danger">
+                <button onClick={this.logOut} className="btn btn-outline-danger p-2 ml-4">
                     Logout
                 </button> :
                 <Link to="/LoginRegister" className="p-2 text-dark">
-                    <a className="btn btn-outline-primary" href="/login">Sign up</a>
+                    <button className="btn btn-outline-primary" href="/login">Sign up</button>
                 </Link>
                 }
 

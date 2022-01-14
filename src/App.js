@@ -6,6 +6,9 @@ import Specific from "./components/GitHub/Specific";
 import Data from "./components/GitHub/Data";  
 import Favorite from "./components/Favorite/Favorite";
 import LoginRegister from "./components/LoginRegister/LoginRegister";
+import Profile from "./components/Profile/Profile";
+// Private Route 
+import PrivateRoute from "./PrivateRoute"; 
 
 import { BrowserRouter as Router, Route } from "react-router-dom"; 
 import { Provider } from 'react-redux'; 
@@ -22,7 +25,7 @@ class App extends Component {
 
     constructor(props) {
         super(props); 
-        this.State = {
+        this.state = {
             isAuthenticated: false, 
         }; 
 
@@ -32,11 +35,24 @@ class App extends Component {
             window.__REDUX_DEVTOOLS_EXTENSION__ && 
             window.__REDUX_DEVTOOLS_EXTENSION__()
         );
+    }
 
+    // check if User is Authnticated
+    async componentDidMount() {
+        if (localStorage.getItem("token")) { // user auth 
+            this.store.dispatch(reUserState(true));
+            this.setState({ isAuthenticated: true }); 
+        } else { // not Auth 
+            this.store.dispatch(reUserState(false)); 
+            this.setState({ isAuthenticated: false });
+        }
+        await this.store.subscribe(() => {
+            this.setState({ isAuthenticated: this.store.getState()["Users"]["isAuthenticated"]}); 
+        })
     }
 
     logOut = () => {
-        localStorage.removeItem("Token");
+        localStorage.removeItem("token");
         this.store.dispatch(reUserState(false));
         this.setState({ isAuthenticated: false })
     }
@@ -52,6 +68,12 @@ class App extends Component {
                         <Route exact path="/Specific/:login" component={Specific} />
                         <Route exact path="/Favorite" component={ Favorite} />
                         <Route exact path="/LoginRegister" component={ LoginRegister } />
+                        <PrivateRoute 
+                            exact path="/profile" 
+                            LogOut={ this.logOut } 
+                            Auth={ this.state.isAuthenticated }
+                            component={ Profile } 
+                        />
                     </Router>
                 </Provider>
             </Fragment>
